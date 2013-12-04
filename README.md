@@ -3,14 +3,14 @@ Docker-Pandoc
 Pandoc, a universal document converter, in a Docker container.
 
 
-Usage
------
-
-### Using --volumes-from
+Usage of Pandoc image
+---------------------
+The `pandoc` image gives you command line access to pandoc. Here's an example of using it to convert a
+single markdown file.
 
 1. Create data volume container.
 
-        $ docker run -v /path/to/examples:/data -name pandoc-data data true
+        $ docker run -v /srv/code/docker-pandoc/examples:/data -name pandoc-data data true
 
 2. Run pandoc on example markdown file, placing resulting HTML page in /data/output.
 
