@@ -29,16 +29,21 @@ def convert_directory(src, dest):
     # Convert the files in place
     for root, dirs, files in os.walk(src):
         for filename in files:
-            if filename.endswith(('md', 'markdown')):
-                name, ext = filename.split('.')
+            name, ext = os.path.splitext(filename)
+            if ext in ['.md', '.markdown']:
                 html_filename = '.'.join([name, 'html'])
                 md_path = os.path.join(root, filename)
                 html_path = os.path.join(root, html_filename)
                 subprocess.call(['pandoc', md_path, '-s', '-o', html_path])
 
-    # Rsync just the html files to dest
-    subprocess.call(['rsync', '-av', '--include=*.html', '--filter=-! */',
-                     '--remove-source-files', src + '/', dest])
+    # Incredibly hacky way to move all files, except markdown files
+    # (Making sure image files get transferred to dest directory.)
+    subprocess.call(['rsync', '-a', src + '/', dest])
+    subprocess.call(['find', dest, '-name', '*.md', '-exec', 'rm', '{}', ';'])
+    subprocess.call(['find', dest, '-name', '*.markdown', '-exec', 'rm', '{}', ';'])
+
+    # Clean out generated html files in src directory.
+    subprocess.call(['find', src, '-name', '*.html', '-exec', 'rm', '{}', ';'])
 
 def main():
     pass
