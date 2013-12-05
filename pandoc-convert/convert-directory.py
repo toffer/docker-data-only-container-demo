@@ -15,17 +15,7 @@ import subprocess
 from docopt import docopt
 
 
-def mkdir_p(path):
-    try:
-        os.makedirs(path)
-    except OSError as exc:
-        if exc.errno == errno.EEXIST and os.path.isdir(path):
-            pass
-        else: raise
-
 def convert_directory(src, dest):
-    mkdir_p(dest)
-
     # Convert the files in place
     for root, dirs, files in os.walk(src):
         for filename in files:
@@ -44,9 +34,6 @@ def convert_directory(src, dest):
 
     # Clean out generated html files in src directory.
     subprocess.call(['find', src, '-name', '*.html', '-exec', 'rm', '{}', ';'])
-
-def main():
-    pass
 
 if __name__ == '__main__':
     args = docopt(__doc__, version='Convert Directory 0.1')
