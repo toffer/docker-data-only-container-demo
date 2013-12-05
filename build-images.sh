@@ -16,4 +16,6 @@ echo "** Building pandoc-convert"
 cd ../pandoc-convert
 docker build -t pandoc-convert .
 
-
+echo "** Building http-server"
+cd ../http-server
+docker build -t http-server .

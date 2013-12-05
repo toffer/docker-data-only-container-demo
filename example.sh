@@ -14,3 +14,6 @@ docker run -volumes-from pandoc-data pandoc-convert /data/md /data/html
 
 echo "** Listing /data/html on data container to show resulting HTML files."
 docker run -volumes-from pandoc-data busybox ls -al /data/html
+
+echo "** Serving /data/html on port 8080."
+docker run -d -volumes-from pandoc-data -p 8080:8080 http-server /data/html
