@@ -1,0 +1,25 @@
+data:
+    build: data
+    command: true
+clone:
+    build: git-clone
+    command: https://github.com/isaacs/npm
+    volumes_from:
+        - data
+convert:
+    build: pandoc-convert
+    command: /data/md /data/html
+    volumes_from:
+        - data
+list:
+    image: busybox
+    command: ls -al /data/html
+    volumes_from:
+        - data
+web:
+    build: http-server
+    command: /data/html
+    volumes_from:
+        - data
+    ports:
+        - "8080:8080"
